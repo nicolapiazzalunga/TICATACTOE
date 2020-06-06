@@ -113,7 +113,7 @@ def utility(board):
     else:
         return 0
 
-def max_value(board):
+def max_value(board, alpha, beta):
     """
     Returns the maximum value of a state
     """
@@ -121,11 +121,14 @@ def max_value(board):
         return utility(board)
     v = -math.inf
     for action in actions(board):
-        v = max(v, min_value(result(board, action)))
+        v = max(v, min_value(result(board, action), alpha, beta))
+        alpha = max(alpha, v)
+        if beta <= alpha:
+            break
     return v
 
 
-def min_value(board):
+def min_value(board, alpha, beta):
     """
     Returns the minimum value of a state
     """
@@ -133,7 +136,10 @@ def min_value(board):
         return utility(board)
     v = math.inf
     for action in actions(board):
-        v = min(v, max_value(result(board, action)))
+        v = min(v, max_value(result(board, action), alpha, beta))
+        beta = min(beta, v)
+        if beta <= alpha:
+            break
     return v
 
 
@@ -144,9 +150,13 @@ def minimax(board):
     frontier = set()
     if player(board) == X:
         for action in actions(board):
-            frontier.add((min_value(result(board, action)), action))
+            alpha = - math.inf
+            beta = math.inf
+            frontier.add((min_value(result(board, action), alpha, beta), action))
         return max(frontier)[1]
     if player(board) == O:
         for action in actions(board):
-            frontier.add((max_value(result(board, action)), action))
+            alpha = - math.inf
+            beta = math.inf
+            frontier.add((max_value(result(board, action), alpha, beta), action))
         return min(frontier)[1]
