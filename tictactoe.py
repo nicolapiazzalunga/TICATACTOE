@@ -116,6 +116,7 @@ def utility(board):
     else:
         return 0
 
+        
 def max_value(board, alpha, beta):
     """
     Returns the maximum value of a state
