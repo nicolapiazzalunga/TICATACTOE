@@ -48,9 +48,12 @@ def result(board, action):
     """
     Returns the board that results from making move (i, j) on the board.
     """
-    results = [[EMPTY, EMPTY, EMPTY],
-            [EMPTY, EMPTY, EMPTY],
-            [EMPTY, EMPTY, EMPTY]]
+    results = [
+        [EMPTY, EMPTY, EMPTY],
+        [EMPTY, EMPTY, EMPTY],
+        [EMPTY, EMPTY, EMPTY]
+        ]
+
     for i in range(3):
         for j in range(3):
             if (i, j) == (action[0], action[1]):
@@ -122,6 +125,7 @@ def max_value(board, alpha, beta):
     v = -math.inf
     for action in actions(board):
         v = max(v, min_value(result(board, action), alpha, beta))
+        # Alpha beta pruning
         alpha = max(alpha, v)
         if beta <= alpha:
             break
@@ -137,6 +141,7 @@ def min_value(board, alpha, beta):
     v = math.inf
     for action in actions(board):
         v = min(v, max_value(result(board, action), alpha, beta))
+        # Alpha beta pruning
         beta = min(beta, v)
         if beta <= alpha:
             break
@@ -148,12 +153,16 @@ def minimax(board):
     Returns the optimal action for the current player on the board.
     """
     frontier = set()
+
+    # If player maximizes
     if player(board) == X:
         for action in actions(board):
             alpha = - math.inf
             beta = math.inf
             frontier.add((min_value(result(board, action), alpha, beta), action))
         return max(frontier)[1]
+    
+    # If player minimizes
     if player(board) == O:
         for action in actions(board):
             alpha = - math.inf
