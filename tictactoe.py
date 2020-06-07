@@ -36,7 +36,7 @@ def actions(board):
     """
     Returns set of all possible actions (i, j) available on the board.
     """
-    actions = set ()
+    actions = set()
     for i in range(3):
         for j in range(3):
             if board[i][j] == EMPTY:
@@ -69,7 +69,7 @@ def winner(board):
     """
     if utility(board) == 1:
         return X
-    elif utility(board) == -1:
+    elif utility(board) == - 1:
         return O
     else:
         return None
@@ -79,7 +79,7 @@ def terminal(board):
     """
     Returns True if game is over, False otherwise.
     """
-    if utility(board) == 1 or utility(board) == -1:
+    if utility(board) == 1 or utility(board) == - 1:
         return True
     for i in range(3):
         for j in range(3):
@@ -93,30 +93,39 @@ def utility(board):
     Returns 1 if X has won the game, -1 if O has won, 0 otherwise.
     """
     for i in range(3):
+        
+        # Horizontal
         if board[i][0] == board[i][1] and board[i][0] == board[i][2] and board[i][0] != EMPTY:
             if board[i][0] == X:
                 return 1
             else:
-                return -1
+                return - 1
+
+        # Vertical
         elif board[0][i] == board[1][i] and board[0][i] == board[2][i] and board[0][i] != EMPTY:
             if board[0][i] == X:
                 return 1
             else:
-                return -1
+                return - 1
+
+    # Main diagonal
     if board[0][0] == board[1][1] and board[0][0] == board[2][2] and board[0][0] != EMPTY:
         if board[0][0] == X:
             return 1
         else:
-            return -1
+            return - 1
+
+    # Secondary diagonal
     elif board[0][2] == board[1][1] and board[0][2] == board[2][0] and board[0][2] != EMPTY:
         if board[0][2] == X:
             return 1
         else:
-            return -1
+            return - 1
+
     else:
         return 0
 
-        
+
 def max_value(board, alpha, beta):
     """
     Returns the maximum value of a state
